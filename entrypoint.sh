@@ -87,7 +87,7 @@ main() {
       -d "$(create_release_request_payload "$latest_tag" "$release_name" "$release_notes")" \
       -H "Authorization: token $GITHUB_TOKEN" \
       -H "Content-Type: application/json" \
-      -X POST https://api.github.com/repos/otrl/"${repository_name}"/releases)
+      -X POST https://api.github.com/repos/"${repository_name}"/releases)
 
     already_exists=$(echo "$create_release_response" | grep "already_exists" || :) \
 
@@ -103,7 +103,7 @@ main() {
         get_release_response=$(curl \
             -H "Authorization: token $GITHUB_TOKEN" \
             -H "Content-Type: application/json" \
-            -X GET https://api.github.com/repos/otrl/"$repository_name"/releases/tags/"$latest_tag")
+            -X GET https://api.github.com/repos/"${repository_name}"/releases/tags/"$latest_tag")
 
         release_id=$(echo "$get_release_response" | grep '"id":' | head -1 | grep -o '[0-9]\+')
 
@@ -111,7 +111,7 @@ main() {
             -d "$(create_release_request_payload "$latest_tag" "$release_name" "$release_notes")" \
             -H "Authorization: token $GITHUB_TOKEN" \
             -H "Content-Type: application/json" \
-            -X PATCH https://api.github.com/repos/otrl/"${repository_name}"/releases/"${release_id}")
+            -X PATCH https://api.github.com/repos/"${repository_name}"/releases/"${release_id}")
 
         echo -e "\e[32m Release has been updated: $release_name \e[39m"
     fi
