@@ -42,7 +42,8 @@ EOF
 #   None
 ##############################################################################
 main() {
-    repository_name=$(basename "$(git rev-parse --show-toplevel)")
+    #repository_name=$(basename "$(git rev-parse --show-toplevel)")
+    repository_name=$GITHUB_REPOSITORY
     latest_tag=$(git describe --tags --abbrev=0)
     previous_tag=$(git describe --abbrev=0 --tags "$(git rev-list --tags --skip=1 --max-count=1)" || true)
     if [ -z $previous_tag ]; then
